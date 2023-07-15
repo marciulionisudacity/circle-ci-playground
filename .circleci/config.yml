@@ -1,14 +1,23 @@
 version: 2.1
 
 jobs:
-  hello-job:
+  print-hello:
     docker:
       - image: cimg/node:17.2.0 # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run: echo "hello world!" # run the `echo` command
+      - run: echo "hello!" # run the `echo` command
+  
+  print-world:   
+    docker:
+      -image: cimg/node:17.2.0
+    steps:
+      - run: echo "world!"   
 
 workflows:
   my-workflow:
     jobs:
-      - hello-job
+      - print-hello
+      - print-world
+          requires:
+            - print-hello
