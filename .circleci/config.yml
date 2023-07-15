@@ -18,6 +18,6 @@ workflows:
   my-workflow:
     jobs:
       - print-hello
-      - print-world
-          requires:
-            - print-hello
+      - print-world:
+        requires:
+          - print-hello
