@@ -1,18 +1,25 @@
 version: 2.1
 
 jobs:
-  print-hello:
+  save_hello_world_output:
     docker:
       - image: cimg/node:17.2.0
     steps:
       - checkout
-      - run: echo "hello!"
+      - run: echo "text to output here" > output.txt
+      - persist_to_workspace:
+        root: /tmp/workspace
+        paths: 
+          - output.txt
 
-  print-world:
+  print_output_file:
     docker:
       - image: cimg/node:17.2.0
     steps:
-      - run: echo "world!"
+      - attach_workspace:
+        at: /tmp/workspace
+      - run: cat /tmp/workspace/output.txt
+
 
   print-my-name:
     docker:
@@ -23,10 +30,8 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      - print-hello
-      - print-world:
+      - save_hello_world_output
+      - print_output_file:
           requires:
-            - print-hello
-      - print-my-name:
-          requires:
-            - print-world      
+            - ave_hello_world_output
+      - print-my-name    
