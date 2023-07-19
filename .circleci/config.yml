@@ -6,6 +6,7 @@ jobs:
       - image: cimg/node:17.2.0
     steps:
       - checkout
+      - run: mkdir -p /tmp/workspace
       - run: echo "text to output here" > /tmp/workspace/output.txt
       - persist_to_workspace:
           root: /tmp/workspace
