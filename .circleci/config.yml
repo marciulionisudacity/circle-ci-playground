@@ -1,5 +1,9 @@
 version: 2.1
 
+default_runner: &default_runner
+  docker: 
+    - image: cimg/node:17.2.0
+    
 commands: 
   print_pipeline_id:
     description: "Print Circle CI workflow Id"
@@ -7,8 +11,7 @@ commands:
       - run: 'echo "Workflow id: $CIRCLE_WORKFLOW_ID"'   
 jobs:
   save_hello_world_output:
-    docker:
-      - image: cimg/node:17.2.0
+    <<: *default_runner 
     steps:
       - checkout
       - run: echo "text to output here" > ~/output.txt
@@ -18,8 +21,7 @@ jobs:
             - output.txt
 
   print_output_file:
-    docker:
-      - image: cimg/node:17.2.0
+    <<: *default_runner 
     steps:
       - attach_workspace:
           at: ~/
@@ -27,20 +29,17 @@ jobs:
 
 
   print-my-name:
-    docker:
-      - image: cimg/node:17.2.0
+    <<: *default_runner 
     steps:
       - run: echo "My name is $USER_NAME"   
 
   use-command: 
-    docker:
-      - image: cimg/node:17.2.0 
+    <<: *default_runner 
     steps:
       - print_pipeline_id     
 
   failure-test: 
-    docker:
-      - image: cimg/node:17.2.0
+    <<: *default_runner 
     steps:
       - run: return 1 
       - run: 
