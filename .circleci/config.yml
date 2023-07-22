@@ -4,7 +4,7 @@ commands:
   print_pipeline_id:
     description: "Print Circle CI workflow Id"
     steps:
-      - run: echo "Workflow id: $CIRCLE_WORKFLOW_ID"   
+      - run: 'echo "Workflow id: $CIRCLE_WORKFLOW_ID"'   
 jobs:
   save_hello_world_output:
     docker:
