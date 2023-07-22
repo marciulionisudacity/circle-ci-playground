@@ -30,13 +30,28 @@ jobs:
     docker:
       - image: cimg/node:17.2.0
     steps:
-      - run: echo "My name is $USER_NAME"      
+      - run: echo "My name is $USER_NAME"   
+      - run: 
+        name: "Test failure"
+        command: echo "Test"
+        when: on_fail   
 
   use-command: 
     docker:
       - image: cimg/node:17.2.0 
     steps:
       - print_pipeline_id     
+
+  failure-test: 
+    docker:
+      - image: cimg/node:17.2.0
+    steps:
+      - run: return 1 
+      - run: 
+        name: "Test failure"
+        command: echo "Failure tested successfuly"
+        when: on_fail   
+        
 
 workflows:
   my-workflow:
@@ -47,3 +62,4 @@ workflows:
             - save_hello_world_output
       - print-my-name    
       - use-command
+      - failure-test
